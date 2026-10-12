@@ -1,0 +1,8 @@
+# OPTIONAL SYNTHETIC DEMONSTRATION ONLY. Load after common.yaml and one case.
+# These newly constructed attack start times are NOT historical experiment data.
+# Each interval is 40 control steps (0.4 s at T=0.01 s), valid for either case.
+# The gate simulates buffer reception within this node; it does not block
+# ROS or MAVLink traffic and it does not start an external network attack.
+dos:
+  enabled: true
+  attack_windows_steps: [[200, 240], [500, 540]]

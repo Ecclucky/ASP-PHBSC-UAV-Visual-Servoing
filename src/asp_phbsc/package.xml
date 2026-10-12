@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>asp_phbsc</name>
+  <version>0.1.0</version>
+  <description>ASP-PHBSC discrete observer, predictor and event-triggered packet controller, implemented from the manuscript equations.</description>
+  <!-- Preserved attribution; maintainer contact and license require the author's release decision. -->
+  <maintainer email="gzy@todo.todo">gzy</maintainer>
+  <license>TODO</license>
+  <buildtool_depend>catkin</buildtool_depend>
+  <depend>roscpp</depend>
+  <depend>std_msgs</depend>
+  <depend>geometry_msgs</depend>
+  <depend>quadrotor_msgs</depend>
+  <depend>xmlrpcpp</depend>
+  <depend>eigen</depend>
+  <exec_depend>roslaunch</exec_depend>
+  <exec_depend>record_curves</exec_depend>
+  <exec_depend>visual_target</exec_depend>
+  <exec_depend>px4ctrl</exec_depend>
+  <exec_depend>vrpn_client_ros</exec_depend>
+  <exec_depend>mavros</exec_depend>
+  <export/>
+</package>

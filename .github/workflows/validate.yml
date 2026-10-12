@@ -1,0 +1,34 @@
+name: Offline validation
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  offline-checks:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install offline test dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y g++ libeigen3-dev python3-yaml
+      - name: Validate source workspace and paper configuration
+        run: python3 scripts/validate_workspace.py
+      - name: Check launcher syntax without executing launchers
+        run: |
+          bash -n scripts/run_experiment.sh
+          bash -n scripts/request_mavlink_streams.sh
+      - name: Compile the actual ROS-independent control core tests
+        run: |
+          g++ -std=c++11 -O2 -Wall -Wextra -pedantic \
+            -Isrc/asp_phbsc/include -I/usr/include/eigen3 \
+            src/asp_phbsc/tests/core_test.cpp \
+            -o "$RUNNER_TEMP/asp_phbsc_core_test"
+      - name: Run control core tests without ROS or flight hardware
+        run: '"$RUNNER_TEMP/asp_phbsc_core_test"'

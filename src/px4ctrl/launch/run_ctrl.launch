@@ -1,0 +1,13 @@
+<launch>
+	<arg name="odometry_topic" default="/mavros/local_position/odom" />
+
+	<node pkg="px4ctrl" type="px4ctrl_node" name="px4ctrl" output="screen">
+			
+		<!-- px4ctrl uses an absolute legacy topic internally. Remap that exact
+		     name to the independently localized FCU/VIO source. -->
+		<remap from="/vins_fusion/imu_propagate" to="$(arg odometry_topic)" />
+
+        <rosparam command="load" file="$(find px4ctrl)/config/ctrl_param_fpv.yaml" />
+	</node>
+ 
+</launch>

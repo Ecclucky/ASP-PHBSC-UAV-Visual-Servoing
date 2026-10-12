@@ -1,0 +1,40 @@
+<launch>
+  <arg name="case" default="case1" />
+  <arg name="synthetic_dos" default="false" />
+  <arg name="record" default="true" />
+  <arg name="output_path" default="" />
+  <arg name="hardware" default="false" />
+  <arg name="mocap_server" default="127.0.0.1" />
+  <arg name="fcu_url" default="/dev/ttyACM0:57600" />
+  <arg name="gcs_url" default="" />
+  <arg name="odometry_topic" default="/mavros/local_position/odom" />
+  <arg name="desired_relative_position" default="[1.0, 0.0, 0.0]" />
+  <arg name="acceleration_limits" default="[0.5, 3.0, 3.0]" />
+
+  <include file="$(find asp_phbsc)/launch/controller.launch">
+    <arg name="case" value="$(arg case)" />
+    <arg name="synthetic_dos" value="$(arg synthetic_dos)" />
+    <arg name="record" value="$(arg record)" />
+    <arg name="output_path" value="$(arg output_path)" />
+    <arg name="desired_relative_position" value="$(arg desired_relative_position)" />
+    <arg name="acceleration_limits" value="$(arg acceleration_limits)" />
+  </include>
+
+  <group if="$(arg hardware)">
+    <include file="$(find vrpn_client_ros)/launch/sample.launch">
+      <arg name="server" value="$(arg mocap_server)" />
+    </include>
+    <include file="$(find mavros)/launch/px4.launch">
+      <arg name="fcu_url" value="$(arg fcu_url)" />
+      <arg name="gcs_url" value="$(arg gcs_url)" />
+    </include>
+    <!-- VRPN is used only by the diagnostic recorder. The FCU/VIO odometry
+         source and PX4 estimator configuration must be independent of mocap. -->
+    <include file="$(find px4ctrl)/launch/run_ctrl.launch">
+      <arg name="odometry_topic" value="$(arg odometry_topic)" />
+    </include>
+    <node pkg="visual_target" type="visual_target_node" name="visual_target" output="screen" required="true">
+      <rosparam command="load" file="$(find asp_phbsc)/config/common.yaml" />
+    </node>
+  </group>
+</launch>

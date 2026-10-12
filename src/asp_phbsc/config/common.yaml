@@ -1,0 +1,27 @@
+# Mathematical reconstruction, not a recovered configuration or flight log.
+# Public UAV parameters below are copied from the current manuscript.
+control_period_s: 0.01
+measurement_period_s: 0.05
+feedback_gain: [4.0, 2.0]
+# This two-entry gain is documentary: the physical state already has two
+# entries, so it is NOT enough to define the disturbance-augmented observer.
+paper_observer_gain: [-0.6, -6.6]
+# UNRESOLVED UAV parameters: no test or satellite values are substituted.
+# Supply an l_w-by-l_w A_w, an l_w-entry C_w, and a (2+l_w)-entry continuous L.
+# The ROS node refuses to start while these are empty. Complete gains need
+# not have all-negative entries; the core checks that A + L C is Hurwitz.
+disturbance_dynamics: []
+disturbance_output: []
+augmented_observer_gain: []
+delta_0: 0.02
+delta_1: 0.02
+measurement_delay_steps: 10
+max_trigger_interval_steps: 20
+# N_p=100 gives a packet of 101 three-axis virtual control inputs.
+prediction_steps: 100
+
+dos:
+  enabled: false
+  # Explicit zero-based CONTROL-STEP windows [start, end), not seconds.
+  # Historical attack start times and normal intervals were not recovered.
+  attack_windows_steps: []

@@ -1,0 +1,6 @@
+# Manuscript Case 1 metadata; load after common.yaml.
+# These target/fan values do not operate an external motor or wind source.
+target_radius_m: 0.67
+target_period_s: 8.0
+max_consecutive_dos_steps: 60
+wind_disturbance: false

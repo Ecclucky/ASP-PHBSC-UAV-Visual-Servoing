@@ -1,0 +1,19 @@
+<launch>
+  <arg name="case" default="case1" />
+  <arg name="synthetic_dos" default="false" />
+  <arg name="record" default="true" />
+  <arg name="output_path" default="" />
+  <!-- Hardware adaptation, not new paper-model parameters. -->
+  <arg name="desired_relative_position" default="[1.0, 0.0, 0.0]" />
+  <arg name="acceleration_limits" default="[0.5, 3.0, 3.0]" />
+  <node pkg="asp_phbsc" type="asp_phbsc_node" name="asp_phbsc_node" output="screen" required="true">
+    <rosparam command="load" file="$(find asp_phbsc)/config/common.yaml" />
+    <rosparam command="load" file="$(find asp_phbsc)/config/$(arg case).yaml" />
+    <rosparam if="$(arg synthetic_dos)" command="load" file="$(find asp_phbsc)/config/synthetic_demo.yaml" />
+    <rosparam param="desired_relative_position" subst_value="true">$(arg desired_relative_position)</rosparam>
+    <rosparam param="acceleration_limits" subst_value="true">$(arg acceleration_limits)</rosparam>
+  </node>
+  <node if="$(arg record)" pkg="record_curves" type="record_curves" name="experiment_recorder" output="screen" required="true">
+    <param if="$(eval arg('output_path') != '')" name="output_path" value="$(arg output_path)" />
+  </node>
+</launch>

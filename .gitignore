@@ -1,0 +1,25 @@
+# Catkin and generated files
+build/
+devel/
+install/
+logs/
+.catkin_tools/
+__pycache__/
+*.py[cod]
+*.o
+*.so
+*.a
+.vscode/
+.idea/
+# Local experiments and machine-specific files
+data/
+*.csv
+*.bag
+*.mcap
+*.ulg
+*.log
+*.zip
+.DS_Store
+Thumbs.db
+# Local installation tutorial; not part of the experiment source release
+src/vrpn_client_ros/Ros环境下安装vrpn-client.pdf
